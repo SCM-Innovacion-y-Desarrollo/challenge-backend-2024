@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField, Typography } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { EditingEmployeeByID, gettingEmployeeByID } from '../../utils/Employees'
 import { LoadingButton } from '@mui/lab'
@@ -43,49 +43,47 @@ const EditEmployee = ({realoading, open, setOpen, selected}) => {
                 </DialogTitle>
 
                 <DialogContent>
-                    <DialogContentText sx={{pt: 1}}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={8}>
-                                <TextField 
-                                    id='fullname' 
-                                    label='Fullname' 
-                                    variant='outlined'
-                                    placeholder='loading...'
-                                    value={fullname}
-                                    onChange={(e) => setFullname(e.target.value)}
-                                    fullWidth
-                                    disabled={loading1}
-                                />
-                            </Grid>
-
-                            <Grid item xs={4}>
-                                <TextField 
-                                    id='dni' 
-                                    label='DNI' 
-                                    variant='outlined'
-                                    placeholder='loading...'
-                                    value={dni}
-                                    onChange={(e) => setDni(e.target.value)}
-                                    fullWidth
-                                    disabled={loading1}
-                                />
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <TextField
-                                    id='email'
-                                    type='email'
-                                    label='Email'
-                                    variant='outlined'
-                                    placeholder='loading...'
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    fullWidth
-                                    disabled={loading1}
-                                />
-                            </Grid>
+                    <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                            <TextField 
+                                id='fullname' 
+                                label='Fullname' 
+                                variant='outlined'
+                                placeholder='loading...'
+                                value={fullname}
+                                onChange={(e) => setFullname(e.target.value)}
+                                fullWidth
+                                disabled={loading1}
+                            />
                         </Grid>
-                    </DialogContentText>
+
+                        <Grid item xs={4}>
+                            <TextField 
+                                id='dni' 
+                                label='DNI' 
+                                variant='outlined'
+                                placeholder='loading...'
+                                value={dni}
+                                onChange={(e) => setDni(e.target.value)}
+                                fullWidth
+                                disabled={loading1}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField
+                                id='email'
+                                type='email'
+                                label='Email'
+                                variant='outlined'
+                                placeholder='loading...'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                fullWidth
+                                disabled={loading1}
+                            />
+                        </Grid>
+                    </Grid>
                 </DialogContent>
 
                 <DialogActions>

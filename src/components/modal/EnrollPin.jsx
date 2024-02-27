@@ -1,12 +1,28 @@
 import { LoadingButton } from '@mui/lab'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
+import { EnrollingPin, validatePin } from '../../utils/Employees'
 
-const EnrollPin = ({realoading, open, setOpen}) => {
+const EnrollPin = ({
+    realoading, 
+    open, 
+    setOpen,
+    selected
+}) => {
+    const [pin, setPin] = useState({
+        value: '',
+        error: false,
+        helperText: ''
+    })
 
     const [loading, setLoading] = useState(false)
 
     const closing = () => {
+        setPin({
+            value: '',
+            error: false,
+            helperText: ''
+        })
         setOpen(false)
     }
 
@@ -21,9 +37,28 @@ const EnrollPin = ({realoading, open, setOpen}) => {
                 </DialogTitle>
 
                 <DialogContent>
-                    <DialogContentText sx={{pt: 1}}>
-                        <p>The process of removing an employee is permanent. do you wish to continue?</p>
-                    </DialogContentText>
+                    <TextField
+                        label="PIN"
+                        sx={{mt: 2}}
+                        onChange={(event) => { 
+                            if(validatePin(event.target.value)){
+								setPin({
+									value: event.target.value, 
+									error: false, 
+									helperText: ''
+								})
+							}else{
+								setPin({
+									value: event.target.value, 
+									error: true, 
+									helperText: 'Invalid PIN'
+								})
+							}
+                        }}
+                        value={pin.value}
+                        error={pin.error}
+						helperText={pin.helperText}
+                    />
                 </DialogContent>
 
                 <DialogActions>
@@ -31,8 +66,16 @@ const EnrollPin = ({realoading, open, setOpen}) => {
 
                     <LoadingButton 
                         loading={loading}
-                        color='error'
-                        onClick={() => {setLoading(false)} }
+                        color='primary'
+                        onClick={() => {
+                            EnrollingPin(setLoading, selected, pin.value)
+                            .then((response) => { 
+                                closing();
+                                realoading();
+                            })
+                            .catch((error) => {})
+                            .finally(() => setLoading())
+                        }}
                         autoFocus
                     >
                         Enroll

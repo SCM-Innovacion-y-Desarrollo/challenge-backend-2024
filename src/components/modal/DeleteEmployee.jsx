@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { DeletingEmployeeByID } from '../../utils/Employees'
 import { LoadingButton } from '@mui/lab'
@@ -21,11 +21,7 @@ const DeleteEmployee = ({realoading, open, setOpen, selected}) => {
                 </DialogTitle>
 
                 <DialogContent>
-                    <DialogContentText sx={{pt: 1}}>
-                        <p>
-                            The process of removing an employee is permanent. do you wish to continue?
-                        </p>
-                    </DialogContentText>
+                    <p>The process of removing an employee is permanent. do you wish to continue?</p>
                 </DialogContent>
 
                 <DialogActions>

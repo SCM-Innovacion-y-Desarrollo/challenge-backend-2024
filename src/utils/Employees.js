@@ -1,3 +1,9 @@
+const validatePin = (PIN) => {
+    const regex = /^\d{4}$/;
+
+    return regex.test(PIN)
+}
+
 const gettingEmployees = (setLoading) => {
     // reemplazar por una llamada a una API para obtener los empleados
     setLoading(true)
@@ -133,6 +139,21 @@ const EnrollingFace = (setLoading, id, image) => {
 
 }
 
+const EnrollingPin = (setLoading, id, pin) => {
+    // reemplazar por una llamada a una API para registrar un PIN
+    setLoading(true)
+
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({ 
+                data: {}
+            });
+        }, 1000);
+    })
+
+
+}
+
 export { 
     gettingEmployees,
     gettingEmployeeByID,
@@ -140,4 +161,6 @@ export {
     EditingEmployeeByID,
     DeletingEmployeeByID,
     EnrollingFace,
+    validatePin,
+    EnrollingPin,
 }
