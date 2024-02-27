@@ -33,6 +33,7 @@ const logging = async (event, setLoading, usern, password, redirect ) => {
     // Simulación de inicio de sesión
     return new Promise((resolve) => {
         setTimeout(() => {
+            sessionStorage.setItem('authenticated', true)
             resolve({ data: {} });
         }, 1000);
     })

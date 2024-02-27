@@ -90,7 +90,6 @@ export const Login = ({redirect}) => {
 					</center>
 
 					<TextField
-						id="user"
 						label={t('sign_on.form.user')}
 						type="text"
 						variant="outlined"
@@ -117,7 +116,6 @@ export const Login = ({redirect}) => {
 
 					<TextField
 						sx={{mt: 2}}
-						id="password"
 						type="password"
 						label={t('sign_on.form.password')}
 						variant="outlined"

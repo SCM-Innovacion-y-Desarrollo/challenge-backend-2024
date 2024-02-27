@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { EditingEmployeeByID, gettingEmployeeByID } from '../../utils/Employees'
 import { LoadingButton } from '@mui/lab'
 
-const EditEmployee = ({realoading, open, setOpen}) => {
+const EditEmployee = ({realoading, open, setOpen, selected}) => {
     const [fullname, setFullname] = useState('')
     const [dni, setDni] = useState('')
     const [email, setEmail] = useState('')
@@ -20,7 +20,7 @@ const EditEmployee = ({realoading, open, setOpen}) => {
 
     useEffect(() => {
         if(open){
-            gettingEmployeeByID(setLoading1, 1)
+            gettingEmployeeByID(setLoading1, selected)
             .then((response) => {
                 setFullname(response.data.fullname)
                 setDni(response.data.dni)
@@ -30,7 +30,7 @@ const EditEmployee = ({realoading, open, setOpen}) => {
             .finally(() => { setLoading1(false)})
         }
 
-    }, [open])
+    }, [open, selected])
 
     return (
         <>
@@ -94,7 +94,7 @@ const EditEmployee = ({realoading, open, setOpen}) => {
                     <LoadingButton 
                         loading={loading2}
                         onClick={() => {
-                            EditingEmployeeByID(setLoading2, fullname, dni, email)
+                            EditingEmployeeByID(setLoading2, selected, fullname, dni, email)
                             .then((response) => { 
                                 closing();
                                 realoading();

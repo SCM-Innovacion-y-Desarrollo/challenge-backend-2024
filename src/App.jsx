@@ -25,6 +25,7 @@ const App = () => {
     }
 
 	useEffect(() => {
+		setAuthenticated(sessionStorage.getItem('authenticated') === 'true' ? true : false)
 		setOpenLeft(localStorage.getItem('openLeft') === 'true' ? true : false)
 		setOpenRight(localStorage.getItem(`right-${window.location.pathname}`) === 'true' ? true : false)
 	}, [])

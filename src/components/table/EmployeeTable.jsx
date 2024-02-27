@@ -11,11 +11,15 @@ import FingerprintIcon from '@mui/icons-material/Fingerprint'
 import AddEmployee from '../modal/AddEmployee'
 import EditEmployee from '../modal/EditEmployee'
 import DeleteEmployee from '../modal/DeleteEmployee'
+import EnrollPin from '../modal/EnrollPin'
+import EnrollFace from '../modal/EnrollFace'
 
-const SubMenu = ({realoading, contextMenu, setContextMenu}) => {
-    const [openAdd, setOpenAdd] = useState(true)
+const SubMenu = ({realoading, contextMenu, setContextMenu, selected}) => {
+    const [openAdd, setOpenAdd] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
+    const [openEnrollPin, setOpenEnrollPin] = useState(false)
+    const [openEnrollFace, setOpenEnrollFace] = useState(false)
 
     const options = [
         {
@@ -25,6 +29,7 @@ const SubMenu = ({realoading, contextMenu, setContextMenu}) => {
                 setOpenAdd(true)
                 setContextMenu(null)
             },
+            disabled: false
         },
         {
             name: 'Edit',
@@ -32,7 +37,8 @@ const SubMenu = ({realoading, contextMenu, setContextMenu}) => {
             click: () => {
                 setOpenEdit(true)
                 setContextMenu(null)
-            }
+            },
+            disabled: !Boolean(selected)
         },
         {
             name: 'Delete',
@@ -40,17 +46,29 @@ const SubMenu = ({realoading, contextMenu, setContextMenu}) => {
             click: () => {
                 setOpenDelete(true)
                 setContextMenu(null)
-            }
+            },
+            disabled: !Boolean(selected)
         },
         {
             name: 'Enroll with PIN',
-            icon: <FingerprintIcon />
+            icon: <FingerprintIcon />,
+            click: () => {
+                setOpenEnrollPin(true)
+                setContextMenu(null)
+            },
+            disabled: !Boolean(selected)
         },
         {
             name: 'Enroll with Face',
-            icon: <FaceIcon />
+            icon: <FaceIcon />,
+            click: () => {
+                setOpenEnrollFace(true)
+                setContextMenu(null)
+            },
+            disabled: !Boolean(selected)
         }
     ]
+    
     return (
         <>
             <Menu
@@ -65,7 +83,7 @@ const SubMenu = ({realoading, contextMenu, setContextMenu}) => {
             >
                 { 
                     options.map((option, index) => 
-                        <MenuItem key={index} onClick={option.click}>
+                        <MenuItem key={index} onClick={option.click} disabled={option.disabled}>
                             <ListItemIcon>
                                 { option.icon }
                             </ListItemIcon>
@@ -75,10 +93,12 @@ const SubMenu = ({realoading, contextMenu, setContextMenu}) => {
                     )
                 }
             </Menu>
-
-            <AddEmployee realoading={realoading} open={openAdd} setOpen={setOpenAdd} />
-            <EditEmployee realoading={realoading} open={openEdit} setOpen={setOpenEdit} />
-            <DeleteEmployee realoading={realoading} open={openDelete} setOpen={setOpenDelete} />
+            
+            <AddEmployee realoading={realoading} open={openAdd} setOpen={setOpenAdd} selected={selected}/>
+            <EditEmployee realoading={realoading} open={openEdit} setOpen={setOpenEdit} selected={selected}/>
+            <DeleteEmployee realoading={realoading} open={openDelete} setOpen={setOpenDelete} selected={selected}/>
+            <EnrollPin realoading={realoading} open={openEnrollPin} setOpen={setOpenEnrollPin} selected={selected}/>
+            <EnrollFace realoading={realoading} open={openEnrollFace} setOpen={setOpenEnrollFace} selected={selected}/>
         </>
     )
 }
@@ -111,8 +131,8 @@ const EmployeeTable = () => {
     ]
 
     const [rows, setRows] = useState([])
-
     const [contextMenu, setContextMenu] = useState(null)
+    const [selected, setSelected] = useState(null)
 
     const realoading = () => {
         gettingEmployees(setLoading)
@@ -146,12 +166,12 @@ const EmployeeTable = () => {
                     sx={{ height: '85.8vh', width: '100%' }}
                     rows={rows}
                     columns={columns}
-                    checkboxSelection
                     loading={loading}
+                    onRowSelectionModelChange={(data) => setSelected(data[0])}
                 />
             </div>
 
-            <SubMenu realoading={realoading} contextMenu={contextMenu} setContextMenu={setContextMenu}/>
+            <SubMenu realoading={realoading} contextMenu={contextMenu} setContextMenu={setContextMenu} selected={selected}/>
         </>
     )
 }

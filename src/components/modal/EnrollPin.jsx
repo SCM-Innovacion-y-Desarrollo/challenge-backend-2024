@@ -1,9 +1,9 @@
+import { LoadingButton } from '@mui/lab'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import { DeletingEmployeeByID } from '../../utils/Employees'
-import { LoadingButton } from '@mui/lab'
 
-const DeleteEmployee = ({realoading, open, setOpen, selected}) => {
+const EnrollPin = ({realoading, open, setOpen}) => {
+
     const [loading, setLoading] = useState(false)
 
     const closing = () => {
@@ -17,14 +17,12 @@ const DeleteEmployee = ({realoading, open, setOpen, selected}) => {
                 onClose={() => closing()}
             >
                 <DialogTitle>
-                    <Typography variant='p'>Delete Employee</Typography>
+                    <Typography variant='p'>Enroll with PIN</Typography>
                 </DialogTitle>
 
                 <DialogContent>
                     <DialogContentText sx={{pt: 1}}>
-                        <p>
-                            The process of removing an employee is permanent. do you wish to continue?
-                        </p>
+                        <p>The process of removing an employee is permanent. do you wish to continue?</p>
                     </DialogContentText>
                 </DialogContent>
 
@@ -34,20 +32,10 @@ const DeleteEmployee = ({realoading, open, setOpen, selected}) => {
                     <LoadingButton 
                         loading={loading}
                         color='error'
-                        onClick={() => {
-                            DeletingEmployeeByID(setLoading, selected)
-                            .then((response) => {
-                                realoading()
-                                closing()
-                            })
-                            .catch((error) => {})
-                            .finally(() => {
-                                setLoading()
-                            })
-                        }} 
+                        onClick={() => {setLoading(false)} }
                         autoFocus
                     >
-                        Delete
+                        Enroll
                     </LoadingButton>
                 </DialogActions>
             </Dialog>
@@ -55,4 +43,4 @@ const DeleteEmployee = ({realoading, open, setOpen, selected}) => {
     )
 }
 
-export default DeleteEmployee
+export default EnrollPin

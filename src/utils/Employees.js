@@ -119,10 +119,25 @@ const DeletingEmployeeByID = (setLoading, id) => {
     })
 }
 
+const EnrollingFace = (setLoading, id, image) => {
+    // reemplazar por una llamada a una API para registrar un rostro
+    setLoading(true)
+
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({ 
+                data: {}
+            });
+        }, 1000);
+    })
+
+}
+
 export { 
     gettingEmployees,
     gettingEmployeeByID,
     AddingEmployeeByID,
     EditingEmployeeByID,
-    DeletingEmployeeByID
+    DeletingEmployeeByID,
+    EnrollingFace,
 }
