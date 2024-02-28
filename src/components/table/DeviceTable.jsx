@@ -1,25 +1,24 @@
 import { DataGrid } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
-import { gettingEmployees } from '../../utils/Employees'
+import { gettingDevices } from '../../utils/Devices'
 import { Fade, Grid, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 import FaceIcon from '@mui/icons-material/Face'
 import FiberPinIcon from '@mui/icons-material/FiberPin'
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import FingerprintIcon from '@mui/icons-material/Fingerprint'
-import AddEmployee from '../modal/employee/AddEmployee'
-import EditEmployee from '../modal/employee/EditEmployee'
-import DeleteEmployee from '../modal/employee/DeleteEmployee'
-import EnrollPin from '../modal/employee/EnrollPin'
-import EnrollFace from '../modal/employee/EnrollFace'
+import AddDevice from '../modal/device/AddDevice'
+import EditDevice from '../modal/device/EditDevice'
+import DeleteDevice from '../modal/device/DeleteDevice'
+import AddPunchPin from '../modal/device/AddPunchPIN'
+import AddPunchFace from '../modal/device/AddPunchFace'
 
-const SubMenu = ({realoading, contextMenu, setContextMenu, selected}) => {
+const SubMenu = ({reloading, contextMenu, setContextMenu, selected}) => {
     const [openAdd, setOpenAdd] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
-    const [openEnrollPin, setOpenEnrollPin] = useState(false)
-    const [openEnrollFace, setOpenEnrollFace] = useState(false)
+    const [openPunchPin, setOpenPunchPin] = useState(false)
+    const [openPunchFace, setOpenPunchFace] = useState(false)
 
     const options = [
         {
@@ -50,25 +49,25 @@ const SubMenu = ({realoading, contextMenu, setContextMenu, selected}) => {
             disabled: !Boolean(selected)
         },
         {
-            name: 'Enroll with PIN',
-            icon: <FingerprintIcon />,
+            name: 'Punch with PIN',
+            icon: <FiberPinIcon />,
             click: () => {
-                setOpenEnrollPin(true)
+                setOpenPunchPin(true)
                 setContextMenu(null)
             },
             disabled: !Boolean(selected)
         },
         {
-            name: 'Enroll with Face',
+            name: 'Punch with Face',
             icon: <FaceIcon />,
             click: () => {
-                setOpenEnrollFace(true)
+                setOpenPunchFace(true)
                 setContextMenu(null)
             },
             disabled: !Boolean(selected)
-        }
+        },
     ]
-    
+
     return (
         <>
             <Menu
@@ -92,26 +91,26 @@ const SubMenu = ({realoading, contextMenu, setContextMenu, selected}) => {
                     )
                 }
             </Menu>
-            
-            <AddEmployee realoading={realoading} open={openAdd} setOpen={setOpenAdd} selected={selected}/>
-            <EditEmployee realoading={realoading} open={openEdit} setOpen={setOpenEdit} selected={selected}/>
-            <DeleteEmployee realoading={realoading} open={openDelete} setOpen={setOpenDelete} selected={selected}/>
-            <EnrollPin realoading={realoading} open={openEnrollPin} setOpen={setOpenEnrollPin} selected={selected}/>
-            <EnrollFace realoading={realoading} open={openEnrollFace} setOpen={setOpenEnrollFace} selected={selected}/>
+
+            <AddDevice reloading={reloading} open={openAdd} setOpen={setOpenAdd} selected={selected} />
+            <EditDevice reloading={reloading} open={openEdit} setOpen={setOpenEdit} selected={selected} />
+            <DeleteDevice reloading={reloading} open={openDelete} setOpen={setOpenDelete} selected={selected} />
+            <AddPunchPin reloading={reloading} open={openPunchPin} setOpen={setOpenPunchPin} selected={selected} />
+            <AddPunchFace reloading={reloading} open={openPunchFace} setOpen={setOpenPunchFace} selected={selected} />
         </>
     )
 }
 
-const EmployeeTable = () => {
+const DeviceTable = () => {
     const columns = [
-        { field: 'id', headerName: 'Id', flex: 0.5 },
-        { field: 'fullname', headerName: 'Full name', flex: 1 },
-        { field: 'email', headerName: 'Email', flex: 1 },
-        { field: 'dni', headerName: 'Dni', flex: 1 },
-        { field: 'device_group', headerName: 'Device group', flex: 1},
+        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: 'name', headerName: 'Name', flex: 1 },
+        { field: 'location', headerName: 'Location', flex: 1 },
+        { field: 'timezone', headerName: 'Time zone', flex: 1 },
+        { field: 'device_group', headerName: 'Device Group', flex: 1 },
         { 
-            field: 'enrollments', 
-            headerName: 'Enrollments', 
+            field: 'punch_type', 
+            headerName: 'Punch type', 
             headerAlign: 'center',
             flex: 1,
             renderCell: (params) => (
@@ -129,30 +128,25 @@ const EmployeeTable = () => {
 
     const [rows, setRows] = useState([])
     const [contextMenu, setContextMenu] = useState(null)
-    const [selected, setSelected] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [selected, setSelected] = useState(null)
 
-    const realoading = () => {
-        gettingEmployees(setLoading)
+    const reloading = () => {
+        gettingDevices(setLoading)
         .then((response) => {
             setRows(response.data)
         })
-        .catch((error) => { setRows([])})
-        .finally(() => setLoading(false))
+        .catch((error) => { console.log(error) })
+        .finally(() => { setLoading(false) })
     }
 
     useEffect(() => {
-        document.addEventListener("contextmenu", (event) => {
-			event.preventDefault()
-		})
-
-        gettingEmployees(setLoading)
+        gettingDevices(setLoading)
         .then((response) => {
             setRows(response.data)
         })
-        .catch((error) => { setRows([])})
-        .finally(() => setLoading(false))
-
+        .catch((error) => { console.log(error) })
+        .finally(() => { setLoading(false) })
     }, [])
 
     return (
@@ -173,7 +167,7 @@ const EmployeeTable = () => {
             </div>
 
             <SubMenu 
-                realoading={realoading} 
+                reloading={reloading} 
                 contextMenu={contextMenu} 
                 setContextMenu={setContextMenu} 
                 selected={selected}
@@ -182,4 +176,4 @@ const EmployeeTable = () => {
     )
 }
 
-export default EmployeeTable
+export default DeviceTable

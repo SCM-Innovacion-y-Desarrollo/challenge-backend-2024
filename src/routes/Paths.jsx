@@ -44,6 +44,12 @@ const WebPaths = () => {
                         exact
                     />
 
+                    <Route
+                        path='/timecard'
+                        element={ authenticated ? <Devices /> : <Navigate to={'/signin'}/> }
+                        exact
+                    />
+
                     <Route path='*' element={<>404 page not found</>}/>
                 </Routes>
             </Router>

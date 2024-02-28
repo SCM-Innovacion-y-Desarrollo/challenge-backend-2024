@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import styled from '@emotion/styled';
-import { EnrollingFace } from '../../utils/Employees';
+import { EnrollingFace } from '../../../utils/Employees';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -57,7 +57,7 @@ const EnrollFace = ({realoading, open, setOpen, selected}) => {
                 onClose={() => closing()}
             >
                 <DialogTitle>
-                    <Typography variant='p'>Enroll with Face</Typography>
+                    <Typography variant='body3'>Enroll with Face</Typography>
                 </DialogTitle>
 
                 <DialogContent>
@@ -66,7 +66,6 @@ const EnrollFace = ({realoading, open, setOpen, selected}) => {
                             component="img"
                             height="300"
                             image={url}
-                            alt="Paella dish"
                             sx={{ borderRadius: 1.5, mb: 2.5 }}
                         />
 

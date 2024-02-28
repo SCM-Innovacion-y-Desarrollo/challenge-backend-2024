@@ -1,14 +1,14 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { EditingEmployeeByID, gettingEmployeeByID } from '../../utils/Employees'
+import React, { useState } from 'react'
+import { AddingEmployeeByID } from '../../../utils/Employees'
 import { LoadingButton } from '@mui/lab'
 
-const EditEmployee = ({realoading, open, setOpen, selected}) => {
+const AddEmployee = ({realoading, open, setOpen}) => {
     const [fullname, setFullname] = useState('')
     const [dni, setDni] = useState('')
     const [email, setEmail] = useState('')
-    const [loading1, setLoading1] = useState(true)
-    const [loading2, setLoading2] = useState(false)
+
+    const [loading, setLoading] = useState(false)
 
     const closing = () => {
         setOpen(false)
@@ -18,20 +18,6 @@ const EditEmployee = ({realoading, open, setOpen, selected}) => {
         setEmail('') 
     }
 
-    useEffect(() => {
-        if(open){
-            gettingEmployeeByID(setLoading1, selected)
-            .then((response) => {
-                setFullname(response.data.fullname)
-                setDni(response.data.dni)
-                setEmail(response.data.email)
-            })
-            .catch((error) => {})
-            .finally(() => { setLoading1(false)})
-        }
-
-    }, [open, selected])
-
     return (
         <>
             <Dialog
@@ -39,48 +25,42 @@ const EditEmployee = ({realoading, open, setOpen, selected}) => {
                 onClose={() => closing()}
             >
                 <DialogTitle>
-                    <Typography variant='p'>Edit Employee</Typography>
+                    <Typography variant='body3'>Add Employee</Typography>
                 </DialogTitle>
 
                 <DialogContent>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} sx={{mt: 1}}>
                         <Grid item xs={8}>
                             <TextField 
-                                id='fullname' 
-                                label='Fullname' 
-                                variant='outlined'
-                                placeholder='loading...'
+                                id="fullname" 
+                                label="Fullname"
+                                variant="outlined"
                                 value={fullname}
                                 onChange={(e) => setFullname(e.target.value)}
                                 fullWidth
-                                disabled={loading1}
-                            />
+                            ></TextField>
                         </Grid>
 
                         <Grid item xs={4}>
                             <TextField 
-                                id='dni' 
-                                label='DNI' 
-                                variant='outlined'
-                                placeholder='loading...'
+                                id="dni" 
+                                label="DNI" 
+                                variant="outlined"
                                 value={dni}
                                 onChange={(e) => setDni(e.target.value)}
                                 fullWidth
-                                disabled={loading1}
                             />
                         </Grid>
 
                         <Grid item xs={12}>
                             <TextField
-                                id='email'
+                                id="email"
                                 type='email'
-                                label='Email'
-                                variant='outlined'
-                                placeholder='loading...'
+                                label="Email"
+                                variant="outlined"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 fullWidth
-                                disabled={loading1}
                             />
                         </Grid>
                     </Grid>
@@ -89,20 +69,20 @@ const EditEmployee = ({realoading, open, setOpen, selected}) => {
                 <DialogActions>
                     <Button color='inherit' onClick={() => closing()}>Cancel</Button>
 
-                    <LoadingButton 
-                        loading={loading2}
+                    <LoadingButton
+                        loading={loading}
                         onClick={() => {
-                            EditingEmployeeByID(setLoading2, selected, fullname, dni, email)
+                            AddingEmployeeByID(setLoading, fullname, dni, email)
                             .then((response) => { 
                                 closing();
                                 realoading();
                             })
                             .catch((error) => {})
-                            .finally(() => setLoading2())
+                            .finally(() => setLoading())
                         }} 
                         autoFocus
                     >
-                        Edit
+                        Add
                     </LoadingButton>
                 </DialogActions>
             </Dialog>
@@ -110,4 +90,4 @@ const EditEmployee = ({realoading, open, setOpen, selected}) => {
     )
 }
 
-export default EditEmployee
+export default AddEmployee

@@ -8,6 +8,7 @@ import GroupsIcon from '@mui/icons-material/Groups'
 import PersonIcon from '@mui/icons-material/Person'
 import DevicesOtherIcon from '@mui/icons-material/DevicesOther'
 import DeviceHubIcon from '@mui/icons-material/DeviceHub'
+import BadgeIcon from '@mui/icons-material/Badge';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -82,6 +83,18 @@ const Left = () => {
 
                     <ListItemText primary={'Device Groups'} />
                 </ListItemButton>
+
+                <ListItemButton
+                    sx={{ pl: 2.5 }}
+                    selected={location.pathname === '/timecard'} 
+                    onClick={() =>navigate('/timecard')}
+                >
+                    <ListItemIcon>
+                        <BadgeIcon />
+                    </ListItemIcon>
+
+                    <ListItemText primary={'Timecard'} />
+                </ListItemButton>
             </List>
 
             <List sx={{position: 'absolute', bottom: 0, width: '100%'}}>
@@ -90,7 +103,10 @@ const Left = () => {
                 <ListItem
                     secondaryAction={
                         openLeft ?
-                            <IconButton onClick={() => setAuthenticated(false)}>
+                            <IconButton onClick={() => { 
+                                setAuthenticated(false)
+                                sessionStorage.removeItem('authenticated')
+                            }}>
                                 <ExitToAppIcon color='error'/>
                             </IconButton>
                             : 

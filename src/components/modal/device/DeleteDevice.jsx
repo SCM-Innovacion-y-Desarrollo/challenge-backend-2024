@@ -1,15 +1,15 @@
+import { LoadingButton } from '@mui/lab'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import { DeletingEmployeeByID } from '../../utils/Employees'
-import { LoadingButton } from '@mui/lab'
+import { deletingDeviceById } from '../../../utils/Devices'
 
-const DeleteEmployee = ({realoading, open, setOpen, selected}) => {
+const DeleteDevice = ({ reloading, open, setOpen, selected }) => {
     const [loading, setLoading] = useState(false)
 
     const closing = () => {
         setOpen(false)
     }
-
+    
     return (
         <>
             <Dialog
@@ -17,33 +17,31 @@ const DeleteEmployee = ({realoading, open, setOpen, selected}) => {
                 onClose={() => closing()}
             >
                 <DialogTitle>
-                    <Typography variant='p'>Delete Employee</Typography>
+                    <Typography variant='body3'>Delete Device</Typography>
                 </DialogTitle>
 
                 <DialogContent>
-                    <p>The process of removing an employee is permanent. do you wish to continue?</p>
+                    <p>The process of removing an device is permanent. do you wish to continue?</p>
                 </DialogContent>
 
                 <DialogActions>
                     <Button color='inherit' onClick={() => closing()}>Cancel</Button>
 
-                    <LoadingButton 
-                        loading={loading}
+                    <LoadingButton
                         color='error'
+                        loading={loading}
                         onClick={() => {
-                            DeletingEmployeeByID(setLoading, selected)
+                            deletingDeviceById(setLoading, selected)
                             .then((response) => {
-                                realoading()
-                                closing()
+                                reloading()
+                                setOpen(false)
                             })
-                            .catch((error) => {})
-                            .finally(() => {
-                                setLoading()
-                            })
+                            .catch((error) => { console.log(error) })
+                            .finally(() => { setLoading(false) })
                         }} 
                         autoFocus
                     >
-                        Delete
+                        Add
                     </LoadingButton>
                 </DialogActions>
             </Dialog>
@@ -51,4 +49,4 @@ const DeleteEmployee = ({realoading, open, setOpen, selected}) => {
     )
 }
 
-export default DeleteEmployee
+export default DeleteDevice

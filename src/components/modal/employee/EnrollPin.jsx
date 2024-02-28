@@ -1,7 +1,7 @@
 import { LoadingButton } from '@mui/lab'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import { EnrollingPin, validatePin } from '../../utils/Employees'
+import { EnrollingPin, validatePin } from '../../../utils/Employees'
 
 const EnrollPin = ({
     realoading, 
@@ -33,7 +33,7 @@ const EnrollPin = ({
                 onClose={() => closing()}
             >
                 <DialogTitle>
-                    <Typography variant='p'>Enroll with PIN</Typography>
+                    <Typography variant='body3'>Enroll with PIN</Typography>
                 </DialogTitle>
 
                 <DialogContent>
