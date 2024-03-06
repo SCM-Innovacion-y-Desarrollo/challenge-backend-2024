@@ -10,7 +10,6 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { useState } from 'react';
-import { gettingEmployees } from '../../../utils/Employees';
 
 function not(a, b) {
     return a.filter((value) => b.indexOf(value) === -1);
@@ -24,15 +23,10 @@ function union(a, b) {
     return [...a, ...not(b, a)];
 }
 
-const EmployeeTransferList = ({employeeSelected, setEmployeeSelected}) => {
+const EmployeeTransferList = ({employees, setEmployees, employeeUnselected, setEmployeeUnselected, employeeSelected, setEmployeeSelected, loading}) => {
     const [checked, setChecked] = useState([]);
 
-    const [loading1, setLoading1] = useState(true);
-    const [employees, setEmployees] = useState([]);
-
-    const [left, setLeft] = useState([]);
-
-    const leftChecked = intersection(checked, left);
+    const leftChecked = intersection(checked, employeeUnselected);
     const rightChecked = intersection(checked, employeeSelected);
 
     const handleToggle = (value) => () => {
@@ -60,25 +54,15 @@ const EmployeeTransferList = ({employeeSelected, setEmployeeSelected}) => {
 
     const handleCheckedRight = () => {
         setEmployeeSelected(employeeSelected.concat(leftChecked));
-        setLeft(not(left, leftChecked));
+        setEmployeeUnselected(not(employeeUnselected, leftChecked));
         setChecked(not(checked, leftChecked));
     };
 
     const handleCheckedLeft = () => {
-        setLeft(left.concat(rightChecked));
+        setEmployeeUnselected(employeeUnselected.concat(rightChecked));
         setEmployeeSelected(not(employeeSelected, rightChecked));
         setChecked(not(checked, rightChecked));
     };
-
-    useState(() => {
-        gettingEmployees(setLoading1)
-        .then((response) => {
-            setEmployees(response.data)
-            setLeft(response.data.map((device) => device.id))
-        })
-        .catch((error) => {})
-        .finally(() => setLoading1(false))
-    }, [])
 
     const customList = (title, items) => (
         <Card sx={{ background: 'transparent', border: (theme) => theme.palette.mode === 'dark' ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid rgba(0, 0, 0, 0.12)', }}>
@@ -91,7 +75,7 @@ const EmployeeTransferList = ({employeeSelected, setEmployeeSelected}) => {
                         indeterminate={
                             numberOfChecked(items) !== items.length && numberOfChecked(items) !== 0
                         }
-                        disabled={items.length === 0 || loading1}
+                        disabled={items.length === 0 || loading}
                         inputProps={{
                             'aria-label': 'all items selected',
                         }}
@@ -122,11 +106,11 @@ const EmployeeTransferList = ({employeeSelected, setEmployeeSelected}) => {
                             key={value}
                             role="listitem"
                             onClick={handleToggle(value)}
-                            disabled={loading1}
+                            disabled={loading}
                         >
                             <ListItemIcon>
                                 <Checkbox
-                                    disabled={loading1}
+                                    disabled={loading}
                                     checked={checked.indexOf(value) !== -1}
                                     tabIndex={-1}
                                     disableRipple
@@ -136,7 +120,15 @@ const EmployeeTransferList = ({employeeSelected, setEmployeeSelected}) => {
                                 />
                             </ListItemIcon>
 
-                            <ListItemText id={labelId} primary={employees.find((employee) => employee.id === value).fullname} />
+                            <ListItemText 
+                                id={labelId} 
+                                primary={
+                                    employees.length > 0 ? 
+                                        employees.find((employee) => employee.id === value).fullname
+                                        :
+                                        ''
+                                } 
+                            />
                         </ListItemButton>
                     );
                 })}
@@ -146,7 +138,7 @@ const EmployeeTransferList = ({employeeSelected, setEmployeeSelected}) => {
 
   return (
     <Grid sx={{mt: -3}} container spacing={5.2} justifyContent="center" alignItems="center">
-      <Grid item>{customList('Assigned', left)}</Grid>
+      <Grid item>{customList('Assigned', employeeUnselected)}</Grid>
       <Grid item>
         <Grid container direction="column" alignItems="center">
           <Button

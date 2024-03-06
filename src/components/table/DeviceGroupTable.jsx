@@ -1,11 +1,16 @@
 import { DataGrid } from "@mui/x-data-grid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { Fade, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 import AddDeviceGroup from "../modal/devicegroup/AddDeviceGroup";
+import EditDeviceGroup from "../modal/devicegroup/EditDeviceGroup";
+import { gettingDeviceGroups } from "../../utils/DeviceGroup";
 
 const SubMenu = ({realoading, contextMenu, setContextMenu, selected}) => {
     const [openAdd, setOpenAdd] = useState(false)
+    const [openEdit, setOpenEdit] = useState(false)
 
     const options = [
         {
@@ -17,6 +22,19 @@ const SubMenu = ({realoading, contextMenu, setContextMenu, selected}) => {
             },
             disabled: false
         },
+        {
+            name: 'Edit',
+            icon: <EditIcon />,
+            click: () => {
+                setOpenEdit(true)
+                setContextMenu(null)
+            },
+            disabled: !Boolean(selected)
+        },
+        {
+            name: 'Delete',
+            icon: <DeleteIcon />,
+        }
     ]
 
     return (
@@ -44,6 +62,7 @@ const SubMenu = ({realoading, contextMenu, setContextMenu, selected}) => {
             </Menu>
 
             <AddDeviceGroup realoading={realoading} open={openAdd} setOpen={setOpenAdd} selected={selected}/>
+            <EditDeviceGroup realoading={realoading} open={openEdit} setOpen={setOpenEdit} selected={selected}/>
         </>
     );
 }
@@ -56,22 +75,20 @@ const DeviceGroupTable = () => {
         { field: 'devices', headerName: 'Devices', flex: 1 },
         { field: 'employees', headerName: 'Employees', flex: 1 },
     ]
-
+    
+    const [rows, setRows] = useState([])
     const [contextMenu, setContextMenu] = useState(null)
     const [selected, setSelected] = useState(null)
     const [loading, setLoading] = useState(false)
 
     const realoading = () => {}
 
-    const rows = [
-        {
-            id: 1,
-            name: 'Group 1',
-            description: 'Description 1',
-            devices: 5,
-            employees: 10
-        }
-    ]
+    useEffect(() => {
+        gettingDeviceGroups(setLoading)
+        .then((response) => {setRows(response.data)})
+        .catch((error) => { console.log(error)})
+        .finally(() => {setLoading(false)})
+    }, [])
 
     return (  
         <>

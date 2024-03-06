@@ -10,7 +10,6 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { useState } from 'react';
-import { gettingDevices } from '../../../utils/Devices';
 
 function not(a, b) {
     return a.filter((value) => b.indexOf(value) === -1);
@@ -24,15 +23,10 @@ function union(a, b) {
     return [...a, ...not(b, a)];
 }
 
-const DeviceTransferList = ({deviceSelected, setDeviceSelected}) => {
+const DeviceTransferList = ({devices, setDevices, deviceUnselected, setDeviceUnselected, deviceSelected, setDeviceSelected, loading}) => {
     const [checked, setChecked] = useState([]);
 
-    const [loading1, setLoading1] = useState(true);
-    const [devices, setDevices] = useState([]);
-    
-    const [left, setLeft] = useState([]);
-
-    const leftChecked = intersection(checked, left);
+    const leftChecked = intersection(checked, deviceUnselected);
     const rightChecked = intersection(checked, deviceSelected);
 
     const handleToggle = (value) => () => {
@@ -60,25 +54,15 @@ const DeviceTransferList = ({deviceSelected, setDeviceSelected}) => {
 
     const handleCheckedRight = () => {
         setDeviceSelected(deviceSelected.concat(leftChecked));
-        setLeft(not(left, leftChecked));
+        setDeviceUnselected(not(deviceUnselected, leftChecked));
         setChecked(not(checked, leftChecked));
     };
 
     const handleCheckedLeft = () => {
-        setLeft(left.concat(rightChecked));
+        setDeviceUnselected(deviceUnselected.concat(rightChecked));
         setDeviceSelected(not(deviceSelected, rightChecked));
         setChecked(not(checked, rightChecked));
     };
-
-    useState(() => {
-        gettingDevices(setLoading1)
-        .then((response) => {
-            setDevices(response.data)
-            setLeft(response.data.map((device) => device.id))
-        })
-        .catch((error) => {})
-        .finally(() => setLoading1(false))
-    }, [])
 
     const customList = (title, items) => (
         <Card sx={{ background: 'transparent', border: (theme) => theme.palette.mode === 'dark' ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid rgba(0, 0, 0, 0.12)', }}>
@@ -91,7 +75,7 @@ const DeviceTransferList = ({deviceSelected, setDeviceSelected}) => {
                         indeterminate={
                             numberOfChecked(items) !== items.length && numberOfChecked(items) !== 0
                         }
-                        disabled={items.length === 0 || loading1}
+                        disabled={items.length === 0 || loading}
                         inputProps={{
                             'aria-label': 'all items selected',
                         }}
@@ -122,11 +106,11 @@ const DeviceTransferList = ({deviceSelected, setDeviceSelected}) => {
                             key={value}
                             role="listitem"
                             onClick={handleToggle(value)}
-                            disabled={loading1}
+                            disabled={loading}
                         >
                             <ListItemIcon>
                                 <Checkbox
-                                    disabled={loading1}
+                                    disabled={loading}
                                     checked={checked.indexOf(value) !== -1}
                                     tabIndex={-1}
                                     disableRipple
@@ -136,7 +120,15 @@ const DeviceTransferList = ({deviceSelected, setDeviceSelected}) => {
                                 />
                             </ListItemIcon>
 
-                            <ListItemText id={labelId} primary={devices.find((device) => device.id === value).name} />
+                            <ListItemText 
+                                id={labelId} 
+                                primary={
+                                    devices.length > 0 ?
+                                        devices.find((device) => device.id === value).name
+                                        : 
+                                        ''
+                                } 
+                            />
                         </ListItemButton>
                     );
                 })}
@@ -144,36 +136,36 @@ const DeviceTransferList = ({deviceSelected, setDeviceSelected}) => {
         </Card>
     );
 
-  return (
-    <Grid sx={{mt: -3}} container spacing={5.2} justifyContent="center" alignItems="center">
-      <Grid item>{customList('Unassigned', left)}</Grid>
-      <Grid item>
-        <Grid container direction="column" alignItems="center">
-          <Button
-            sx={{ my: 0.5 }}
-            variant="outlined"
-            size="small"
-            onClick={handleCheckedRight}
-            disabled={leftChecked.length === 0}
-            aria-label="move selected right"
-          >
-            &gt;
-          </Button>
-          <Button
-            sx={{ my: 0.5 }}
-            variant="outlined"
-            size="small"
-            onClick={handleCheckedLeft}
-            disabled={rightChecked.length === 0}
-            aria-label="move selected left"
-          >
-            &lt;
-          </Button>
+    return (
+        <Grid sx={{mt: -3}} container spacing={5.2} justifyContent="center" alignItems="center">
+            <Grid item>{customList('Unassigned', deviceUnselected)}</Grid>
+            <Grid item>
+                <Grid container direction="column" alignItems="center">
+                    <Button
+                        sx={{ my: 0.5 }}
+                        variant="outlined"
+                        size="small"
+                        onClick={handleCheckedRight}
+                        disabled={leftChecked.length === 0}
+                        aria-label="move selected right"
+                    >
+                        &gt;
+                    </Button>
+                    <Button
+                        sx={{ my: 0.5 }}
+                        variant="outlined"
+                        size="small"
+                        onClick={handleCheckedLeft}
+                        disabled={rightChecked.length === 0}
+                        aria-label="move selected left"
+                    >
+                        &lt;
+                    </Button>
+                </Grid>
+            </Grid>
+            <Grid item>{customList('Assigned', deviceSelected)}</Grid>
         </Grid>
-      </Grid>
-      <Grid item>{customList('Assigned', deviceSelected)}</Grid>
-    </Grid>
-  );
+    );
 }
 
 export default DeviceTransferList;
