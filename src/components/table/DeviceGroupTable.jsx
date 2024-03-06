@@ -7,10 +7,12 @@ import { Fade, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material"
 import AddDeviceGroup from "../modal/devicegroup/AddDeviceGroup";
 import EditDeviceGroup from "../modal/devicegroup/EditDeviceGroup";
 import { gettingDeviceGroups } from "../../utils/DeviceGroup";
+import DeleteDeviceGroup from "../modal/devicegroup/DeleteDeviceGroup";
 
-const SubMenu = ({realoading, contextMenu, setContextMenu, selected}) => {
+const SubMenu = ({reloading, contextMenu, setContextMenu, selected}) => {
     const [openAdd, setOpenAdd] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
+    const [openDelete, setOpenDelete] = useState(false)
 
     const options = [
         {
@@ -34,6 +36,11 @@ const SubMenu = ({realoading, contextMenu, setContextMenu, selected}) => {
         {
             name: 'Delete',
             icon: <DeleteIcon />,
+            click: () => {
+                setOpenDelete(true)
+                setContextMenu(null)
+            },
+            disabled: !Boolean(selected)
         }
     ]
 
@@ -61,8 +68,9 @@ const SubMenu = ({realoading, contextMenu, setContextMenu, selected}) => {
                 }
             </Menu>
 
-            <AddDeviceGroup realoading={realoading} open={openAdd} setOpen={setOpenAdd} selected={selected}/>
-            <EditDeviceGroup realoading={realoading} open={openEdit} setOpen={setOpenEdit} selected={selected}/>
+            <AddDeviceGroup reloading={reloading} open={openAdd} setOpen={setOpenAdd} selected={selected}/>
+            <EditDeviceGroup reloading={reloading} open={openEdit} setOpen={setOpenEdit} selected={selected}/>
+            <DeleteDeviceGroup reloading={reloading} open={openDelete} setOpen={setOpenDelete} selected={selected}/>
         </>
     );
 }
@@ -81,7 +89,12 @@ const DeviceGroupTable = () => {
     const [selected, setSelected] = useState(null)
     const [loading, setLoading] = useState(false)
 
-    const realoading = () => {}
+    const reloading = () => {
+        gettingDeviceGroups(setLoading)
+        .then((response) => {setRows(response.data)})
+        .catch((error) => { console.log(error)})
+        .finally(() => {setLoading(false)})
+    }
 
     useEffect(() => {
         gettingDeviceGroups(setLoading)
@@ -108,7 +121,7 @@ const DeviceGroupTable = () => {
             </div>
 
             <SubMenu 
-                realoading={realoading} 
+                reloading={reloading} 
                 contextMenu={contextMenu} 
                 setContextMenu={setContextMenu} 
                 selected={selected}

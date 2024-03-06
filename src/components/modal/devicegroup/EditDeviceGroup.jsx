@@ -8,7 +8,7 @@ import { gettingDevices } from "../../../utils/Devices";
 import { gettingEmployees } from "../../../utils/Employees";
 //import DeviceGroupTransferList from "../../transferlist/devicegroup/DeviceTransferList";
 
-const EditDeviceGroup = ({realoading, open, setOpen, selected}) => {
+const EditDeviceGroup = ({reloading, open, setOpen, selected}) => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
 
@@ -156,7 +156,7 @@ const EditDeviceGroup = ({realoading, open, setOpen, selected}) => {
                             .then((response) => {
                                 console.log(response.data)
                                 closing()
-                                realoading()
+                                reloading()
                             })
                             .catch((error) => { console.log(error)})
                             .finally(() => setLoadingEdit(false))

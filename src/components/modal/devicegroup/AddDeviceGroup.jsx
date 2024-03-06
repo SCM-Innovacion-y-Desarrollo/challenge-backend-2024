@@ -2,16 +2,27 @@ import { LoadingButton } from "@mui/lab";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import DeviceTransferList from "../../transferlist/devicegroup/DeviceTransferList";
 import EmployeeTransferList from "../../transferlist/devicegroup/EmployeeTransferList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addingDeviceGroup } from "../../../utils/DeviceGroup";
+import { gettingDevices } from "../../../utils/Devices";
+import { gettingEmployees } from "../../../utils/Employees";
 //import DeviceGroupTransferList from "../../transferlist/devicegroup/DeviceTransferList";
 
-const AddDeviceGroup = ({realoading, open, setOpen}) => {
+const AddDeviceGroup = ({reloading, open, setOpen}) => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
+
+    const [loadingAdd, setLoadingAdd] = useState(false)
+
+    const [devices, setDevices] = useState([])
+    const [deviceUnselected, setDeviceUnselected] = useState([])
     const [deviceSelected, setDeviceSelected] = useState([])
+    const [loadingDevice, setLoadingDevice] = useState(false)
+
+    const [employees, setEmployees] = useState([])
+    const [employeeUnselected, setEmployeeUnselected] = useState([])
     const [employeeSelected, setEmployeeSelected] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loadingEmployee, setLoadingEmployee] = useState(false)
 
     const closing = () => {
         setOpen(false)
@@ -21,6 +32,26 @@ const AddDeviceGroup = ({realoading, open, setOpen}) => {
         setEmployeeSelected([])
     }
     
+    useEffect(() => {
+        if(open){
+            gettingDevices(setLoadingDevice)
+            .then((r) => {
+                setDevices(r.data)
+                setDeviceUnselected(r.data.map((device) => device.id))
+            })
+            .catch((error) => { console.log(error)})
+            .finally(() => { setLoadingDevice(false)})
+
+            gettingEmployees(setLoadingEmployee)
+            .then((r) => {
+                setEmployees(r.data)
+                setEmployeeUnselected(r.data.map((employee) => employee.id))
+            })
+            .catch((error) => { console.log(error)})
+            .finally(() => { setLoadingEmployee(false)})
+        }
+    }, [open])
+
     return (
         <>
             <Dialog
@@ -60,18 +91,28 @@ const AddDeviceGroup = ({realoading, open, setOpen}) => {
                         <Grid item xs={12}>
                             <Typography variant='h6'>Devices</Typography>
 
-                            <DeviceTransferList 
+                            <DeviceTransferList
+                                devices={devices}
+                                setDevices={setDevices}
+                                deviceUnselected={deviceUnselected}
+                                setDeviceUnselected={setDeviceUnselected}
                                 deviceSelected={deviceSelected} 
                                 setDeviceSelected={setDeviceSelected}
+                                loading={loadingDevice}
                             />
                         </Grid>
 
                         <Grid item xs={12}>
                             <Typography variant='h6'>Employees</Typography>
 
-                            <EmployeeTransferList 
+                            <EmployeeTransferList
+                                employees={employees}
+                                setEmployees={setEmployees}
+                                employeeUnselected={employeeUnselected}
+                                setEmployeeUnselected={setEmployeeUnselected}
                                 employeeSelected={employeeSelected} 
                                 setEmployeeSelected={setEmployeeSelected}
+                                loading={loadingEmployee}
                             />
                         </Grid>
                     </Grid>
@@ -81,14 +122,15 @@ const AddDeviceGroup = ({realoading, open, setOpen}) => {
                     <Button color='inherit' onClick={() => closing()}>Cancel</Button>
 
                     <LoadingButton
-                        loading={loading}
+                        loading={loadingAdd}
                         onClick={() => {
-                            addingDeviceGroup(setLoading, name, description, deviceSelected, employeeSelected, realoading)
+                            addingDeviceGroup(setLoadingAdd, name, description, deviceSelected, employeeSelected)
                             .then((response) => {
                                 closing()
+                                reloading()
                             })
                             .catch((error) => { console.log(error)})
-                            .finally(() => setLoading(false))
+                            .finally(() => setLoadingAdd(false))
                         }} 
                         autoFocus
                     >

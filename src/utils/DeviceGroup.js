@@ -85,8 +85,23 @@ const addingDeviceGroup = async (setLoading, name, description, devices, employe
     })
 }
 
+const deletingDeviceGruopById = async (setLoading, id) => {
+    setLoading(true)
+
+    // reemplazar por una llamada a una API para eliminar un dispositivo
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({ 
+                data: {}
+            });
+        }, 1000);
+    })
+
+}
+
 export { 
     gettingDeviceGroups,
     addingDeviceGroup,
-    gettingDeviceGroupById 
+    gettingDeviceGroupById,
+    deletingDeviceGruopById
 }
