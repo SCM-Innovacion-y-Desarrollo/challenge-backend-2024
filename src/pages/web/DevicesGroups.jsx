@@ -1,5 +1,15 @@
 import React from 'react'
 import Navbar from '../../components/navigation/web/Navbar'
+import DeviceGroupTable from '../../components/table/DeviceGroupTable';
+
+const Component = () => {
+    return (  
+        <>
+            <DeviceGroupTable />
+        </>
+    );
+}
+ 
 
 const DevicesGroups = () => {
     return (
@@ -7,7 +17,7 @@ const DevicesGroups = () => {
             <Navbar 
                 view={{
                     title: 'Devices Groups',
-                    component: <> component </>
+                    component: <Component />
                 }}
                 right={null}
             />
