@@ -115,14 +115,14 @@ const EmployeeTable = () => {
             headerAlign: 'center',
             flex: 1,
             renderCell: (params) => (
-				<Grid container>
-					<Grid item xs={6}>
-						<center><FaceIcon style={params.value.face ? { color: '#4caf50'} : {color: 'rgba(158, 158, 158, 0.5)'}}/></center>
-					</Grid>
-					<Grid item xs={6} style={params.value.pin ? { color: '#4caf50'} : {color: 'rgba(158, 158, 158, 0.5)'}}>
-                        <center><FiberPinIcon/></center>
-					</Grid>
-				</Grid>
+            <Grid container>
+                <Grid item xs={6}>
+                    <center><FaceIcon style={params.value.face ? { color: '#4caf50'} : {color: 'rgba(158, 158, 158, 0.5)'}}/></center>
+                </Grid>
+                <Grid item xs={6} style={params.value.pin ? { color: '#4caf50'} : {color: 'rgba(158, 158, 158, 0.5)'}}>
+                    <center><FiberPinIcon/></center>
+                </Grid>
+            </Grid>
 			)
         },
     ]
@@ -161,6 +161,7 @@ const EmployeeTable = () => {
                 style={{width: '100%', height: '86.3vh'}} 
                 onContextMenu={(event) => {
                     setContextMenu(contextMenu === null ? { mouseX: event.clientX + 2, mouseY: event.clientY - 6} : null)
+                    console.log(event)
                 }}
             >
                 <DataGrid

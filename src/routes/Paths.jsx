@@ -6,6 +6,7 @@ import { Employees } from '../pages/web/Employees'
 import { Employees as EmployeesMobile } from '../pages/mobile/Employees'
 import { Devices } from '../pages/web/Devices'
 import { DevicesGroups } from '../pages/web/DevicesGroups'
+import { Timecard } from '../pages/web/Timecard'
 
 const WebPaths = () => {
     const { authenticated } = useContext(GlobalContext)
@@ -46,7 +47,7 @@ const WebPaths = () => {
 
                     <Route
                         path='/timecard'
-                        element={ authenticated ? <Devices /> : <Navigate to={'/signin'}/> }
+                        element={ authenticated ? <Timecard /> : <Navigate to={'/signin'}/> }
                         exact
                     />
 
