@@ -1,5 +1,8 @@
 import moment from "moment"
 
+/*
+Función que se encarga de obtener el primer y último día del mes actual.
+*/
 const getMonth = () => {
     let date  = new Date()
     let year  = date.getFullYear()
