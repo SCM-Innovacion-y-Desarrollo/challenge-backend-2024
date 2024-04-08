@@ -1,0 +1,16 @@
+{
+    "sign_on":{
+        "form": {
+            "usern": "Usuario",
+            "password": "Contraseña",
+            "sign_on": "Inicio de sesión",
+            "or": "O",
+            "sign_in_with": "Iniciar sesión con",
+            "version": "Versión",
+            "empty_user": "El usuario es requerido",
+            "empty_password": "La contraseña es requerida",
+            "invalid_user": "El formato del usuario no es válido",
+            "invalid_password": "El formato de la contraseña no es válida"
+        }
+    }
+}
