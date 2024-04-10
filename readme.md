@@ -1,111 +1,15 @@
-## Instalación de las dependencias del proyecto.
+## Challege Back-End SCMLatam
 
-Para instalar las dependencias del cliente tienes que estar a la altura del achivo package.json como se muesta a continuación
-
-```
-Directorio Raíz 
-|__ public
-|__ src
-|__ package.json
-```
-
-puedes instalar los paquetes con tu gestor favorito, para este caso se daran ejemplos para YARN y NPM.
-
-```
-npm run install
-```
-
-Si utilizas el destor de paquetes yarn puedes utilizar
-
-```
-yarn
-```
-
-o
-
-```
-yarn install
-```
-
-## Inicializacíon del cliente (Dashboard).
-
-Una vez que se terminen de descargar las dependencias ejecuta el siguiente comando
-
-```
-npm run start
-```
-
-o
-
-```
-yarn start
-```
-
-Esto te abrirá una ventana en el navegador (localhost:3000) desde donde se ejecutarán todas las acciónes.
-
-## Funciónes y endpoints.
-
-Ya que el challenge tiene como finalidad evaluar el desarrollo de las API's que crearas hemos estructurado este proyecto y realizado funciones con MOCK DATA que emulan el comportamiento esperado de los diferentes endpoints.
+El siguiente repositorio esta conformado de dos proyectos:
 
 ```
 Directorio Raíz 
-|__ public
-|__ src
-|   |__ utils
-|       |__ Dates.js
-|       |__ DeviceGroup.js
-|       |__ Devices.js
-|       |__ Employees.js
-|       |__ Login.js
-|       |__ Timecard.js
+|__ dashboard
+|__ face-recognition
 ```
 
-Modifica las funciones en los archivos ubicados en la carpeta utils
-intentando mantener la extructura de las respuestas de la api a la MOCK-DATA si quieres cambiar la extructura de los endpoint tendras que modificar el cliente.
+#dashboard: 
+Proyecto desarrollado en react (18) y MUI (5) el cual se da como opcion para ser utilizado con el proyecto back-end a desarrollar.
 
-```
-// Simulación de inicio de sesión
-
-const logging = async (event, setLoading, usern, password, redirect ) => {
-	event.preventDefault()
-    
-	setLoading(true)
-
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            sessionStorage.setItem('authenticated', true)
-            resolve({ data: {} });
-        }, 1000);
-    })
-}
-```
-
-```
-// Realizar la peticion HTTP correspondiente para hacer inicio de sesion
-
-const logging = async (event, setLoading, user, password, redirect ) => {
-	event.preventDefault()
-    
-	setLoading(true)
-
-    const body = {
-        user,
-        password,
-    }
-
-    return await axios.post('url/login', body)
-    .then((response) => {
-        // Manejar el inicio de sesión y almacenar los datos requeridos en el endpoint
-        sessionStorage.setItem('authenticated', true)
-        // redireccionar
-
-    })
-    .catch((error) => { 
-        // Manejar el error
-        console.error(error.message)
-    })
-    .finally(() => {
-        setLoading(false)
-    })
-}
-```
+#face-recognition: 
+Archivo de ejecucion con Python el cual utiliza la libreria del mismo nombre para poder obtener un grado de similitud entre dos imagenes. Con el cual se puede utilizar para que el back-end genere una simulacion de reconocimiento facial para generar o no una asistencia.
