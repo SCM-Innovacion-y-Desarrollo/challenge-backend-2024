@@ -9,7 +9,7 @@ Directorio Raíz
 ```
 
 ### dashboard: 
-Proyecto desarrollado en react (18) y MUI (5) el cual se da como opcion para ser utilizado con el proyecto back-end a desarrollar.
+Proyecto desarrollado en React (18) y MUI (5) el cual se da como opción para ser utilizado con el proyecto back-end a desarrollar.
 
 ### face-recognition: 
-Archivo de ejecucion con Python el cual utiliza la libreria del mismo nombre para poder obtener un grado de similitud entre dos imagenes. Con el cual se puede utilizar para que el back-end genere una simulacion de reconocimiento facial para generar o no una asistencia.
+Archivo de ejecución con Python el cual utiliza la librería del mismo nombre para poder obtener un grado de similitud entre dos imágenes. Con el cual se puede utilizar para que el back-end genere una simulación de reconocimiento facial para generar o no una asistencia.
