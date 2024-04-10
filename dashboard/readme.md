@@ -1,6 +1,6 @@
 ## Instalación de las dependencias del proyecto.
 
-Para instalar las dependencias del cliente tienes que estar a la altura del achivo package.json como se muesta a continuación
+Para instalar las dependencias del cliente tienes que estar a la altura del archivo package.json como se muestra a continuación 
 
 ```
 Directorio Raíz 
@@ -9,7 +9,7 @@ Directorio Raíz
 |__ package.json
 ```
 
-puedes instalar los paquetes con tu gestor favorito, para este caso se daran ejemplos para YARN y NPM.
+puedes instalar los paquetes con tu gestor favorito, para este caso se darán ejemplos para YARN y NPM.
 
 ```
 npm run install
@@ -27,7 +27,7 @@ o
 yarn install
 ```
 
-## Inicializacíon del cliente (Dashboard).
+## Inicialización del cliente (Dashboard).
 
 Una vez que se terminen de descargar las dependencias ejecuta el siguiente comando
 
@@ -41,9 +41,9 @@ o
 yarn start
 ```
 
-Esto te abrirá una ventana en el navegador (localhost:3000) desde donde se ejecutarán todas las acciónes.
+Esto te abrirá una ventana en el navegador (localhost:3000) desde donde se ejecutarán todas las acciones.
 
-## Funciónes y endpoints.
+## Funciones y endpoints.
 
 Ya que el challenge tiene como finalidad evaluar el desarrollo de las API's que crearas hemos estructurado este proyecto y realizado funciones con MOCK DATA que emulan el comportamiento esperado de los diferentes endpoints.
 
@@ -61,7 +61,7 @@ Directorio Raíz
 ```
 
 Modifica las funciones en los archivos ubicados en la carpeta utils
-intentando mantener la extructura de las respuestas de la api a la MOCK-DATA si quieres cambiar la extructura de los endpoint tendras que modificar el cliente.
+intentando mantener la estructura de las respuestas de la api a la MOCK-DATA si quieres cambiar la estructura de los endpoint tendrás que modificar el cliente.
 
 ```
 // Simulación de inicio de sesión
